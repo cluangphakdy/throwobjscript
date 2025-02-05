@@ -7,10 +7,12 @@ public class Throwing : MonoBehaviour
     public Rigidbody rb;
     private int forward = 0;
     private int up = 0;
+    private bool Air;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        Air = false;
         
     }
 
@@ -29,15 +31,24 @@ public class Throwing : MonoBehaviour
         }
         
 
-       if (Input.GetMouseButtonDown(0))
+       if (Input.GetMouseButtonDown(0) && !Air)
         {
             forward = 2;
             up = 5;
-            rb.velocity = new Vector3(forward, 5, 0);
+            Air = true;
+            rb.velocity = new Vector3(forward, 7, 0);
 
         }
+       
         //rb.velocity = new Vector3(forward, up, 0);
 
+
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Air = false;
+        Debug.Log("Object collided with the ground");
 
     }
 }
